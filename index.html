@@ -1,481 +1,6 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agnieszka Wargoś — Książki</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Serif+4:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --paper: #FBF8F2;
-    --paper-warm: #F5EFE3;
-    --ink: #1C2333;
-    --ink-soft: #4A5165;
-    --crimson: #A32638;
-    --crimson-deep: #7E1C2B;
-    --gold: #C89B3C;
-    --line: #D9CFBD;
-    --rule: rgba(28,35,51,0.08);
-    --radius: 3px;
-  }
+<div class="book-grid">
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body{
-    margin:0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Source Serif 4', Georgia, serif;
-    line-height: 1.6;
-  }
-
-  h1,h2,h3, .display{
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-  }
-
-  .mono{
-    font-family: 'Space Mono', monospace;
-    letter-spacing: 0.02em;
-  }
-
-  a { color: inherit; }
-
-  /* ---------- Notebook rule texture ---------- */
-  .ruled{
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent,
-      transparent 37px,
-      var(--rule) 37px,
-      var(--rule) 38px
-    );
-  }
-
-  /* ---------- Header ---------- */
-  header{
-    padding: 28px 6vw;
-    display:flex;
-    justify-content: space-between;
-    align-items:center;
-    border-bottom: 1px solid var(--line);
-  }
-  .brand{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.25rem;
-  }
-  .brand span{ color:var(--crimson); }
-  nav a{
-    text-decoration:none;
-    margin-left: 28px;
-    font-family:'Space Mono', monospace;
-    font-size:0.78rem;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    color:var(--ink-soft);
-    border-bottom: 1px solid transparent;
-    padding-bottom:3px;
-    transition: border-color .2s ease, color .2s ease;
-  }
-  nav a:hover{ color:var(--crimson); border-color:var(--crimson); }
-  nav{ display:flex; }
-
-  /* ---------- Hero / Memoir ---------- */
-  .hero{
-    position:relative;
-    padding: 90px 6vw 100px;
-    background: var(--paper);
-    overflow:hidden;
-  }
-  .hero-grid{
-    display:grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 64px;
-    align-items:center;
-    max-width: 1180px;
-    margin:0 auto;
-  }
-  .eyebrow{
-    font-family:'Space Mono', monospace;
-    font-size:0.75rem;
-    text-transform:uppercase;
-    letter-spacing:0.12em;
-    color:var(--crimson);
-    margin-bottom: 18px;
-    display:inline-block;
-  }
-  .hero h1{
-    font-size: clamp(2.2rem, 4vw, 3.4rem);
-    line-height:1.08;
-    margin: 0 0 22px;
-  }
-  .hero p.lede{
-    font-size:1.15rem;
-    color:var(--ink-soft);
-    max-width: 46ch;
-    margin-bottom: 34px;
-  }
-
-  .buy-row{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
-
-  .btn-amazon{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    background: var(--ink);
-    color: var(--paper);
-    text-decoration:none;
-    padding: 14px 26px;
-    border-radius: var(--radius);
-    font-family:'Space Mono', monospace;
-    font-size:0.82rem;
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    transition: background .2s ease, transform .15s ease;
-  }
-  .btn-amazon:hover{ background: var(--crimson); transform: translateY(-1px); }
-  .btn-amazon svg{ width:14px; height:14px; }
-
-  .price-tag{
-    font-family:'Space Mono', monospace;
-    font-size:0.9rem;
-    color:var(--ink-soft);
-  }
-
-  /* Featured book cover — CSS rendered, no image needed */
-  .cover-wrap{ position:relative; display:flex; justify-content:center; }
-  .cover{
-    width: 280px;
-    aspect-ratio: 2/3;
-    background: linear-gradient(155deg, var(--crimson-deep), var(--crimson) 65%);
-    border-radius: 2px;
-    box-shadow: 0 30px 60px -20px rgba(28,35,51,0.45), 0 2px 0 rgba(255,255,255,0.08) inset;
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    padding: 30px 26px;
-    color: #F5EAE2;
-    transform: rotate(-2deg);
-  }
-  .cover::before{
-    content:"";
-    position:absolute; left:16px; top:0; bottom:0; width:1px;
-    background: rgba(245,234,226,0.25);
-  }
-  .cover .cov-eyebrow{
-    font-family:'Space Mono', monospace;
-    font-size:0.65rem;
-    text-transform:uppercase;
-    letter-spacing:0.15em;
-    opacity:0.75;
-  }
-  .cover .cov-title{
-    font-family:'Fraunces', serif;
-    font-size:1.65rem;
-    font-weight:700;
-    line-height:1.15;
-  }
-  .cover .cov-author{
-    font-family:'Space Mono', monospace;
-    font-size:0.7rem;
-    letter-spacing:0.06em;
-    opacity:0.85;
-  }
-
-  /* Teacher's grading stamp — signature element */
-  .stamp{
-    position:absolute;
-    top: -22px;
-    right: -34px;
-    width: 108px; height:108px;
-    border: 3px solid var(--crimson);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transform: rotate(12deg);
-    background: rgba(251,248,242,0.9);
-    color: var(--crimson);
-    font-family:'Space Mono', monospace;
-    font-size:0.62rem;
-    text-transform:uppercase;
-    text-align:center;
-    letter-spacing:0.06em;
-    line-height:1.3;
-    box-shadow: 0 8px 20px rgba(163,38,56,0.18);
-  }
-
-  /* ---------- Section shell ---------- */
-  section.block{ padding: 80px 6vw; max-width:1180px; margin:0 auto; }
-  .section-head{ margin-bottom:48px; max-width: 60ch; }
-  .section-head .eyebrow{ margin-bottom:12px; }
-  .section-head h2{ font-size: clamp(1.7rem, 2.6vw, 2.3rem); margin:0 0 12px;}
-  .section-head p{ color:var(--ink-soft); margin:0; }
-
-  /* ---------- Language books grid ---------- */
-  .lessons{ background: var(--paper-warm); }
-  .book-grid{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 28px;
-  }
-  .book-card{
-    background: var(--paper);
-    border:1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 26px 24px 22px;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    position:relative;
-    transition: transform .18s ease, box-shadow .18s ease;
-  }
-  .book-card:hover{ transform: translateY(-3px); box-shadow: 0 16px 34px -18px rgba(28,35,51,0.25); }
-
-  .mini-cover{
-    width: 44px; height:60px;
-    border-radius:2px;
-    background: linear-gradient(155deg, var(--ink), #303955 70%);
-    position:relative;
-    flex-shrink:0;
-  }
-  .mini-cover::after{
-    content:"";
-    position:absolute; left:9px; top:8px; right:9px; bottom:8px;
-    border-top:1px solid rgba(200,155,60,0.55);
-  }
-  .book-card .tier{
-    font-family:'Space Mono', monospace;
-    font-size:0.65rem;
-    text-transform:uppercase;
-    letter-spacing:0.1em;
-    color: var(--gold);
-  }
-  .book-card h3{
-    font-size:1.05rem;
-    line-height:1.3;
-    margin:0;
-  }
-  .book-card .desc{
-    font-size:0.92rem;
-    color:var(--ink-soft);
-    margin:0;
-    flex-grow:1;
-  }
-  .book-card .foot{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-top:6px;
-    border-top:1px dashed var(--line);
-    padding-top:14px;
-  }
-  .book-card .buy-link{
-    text-decoration:none;
-    font-family:'Space Mono', monospace;
-    font-size:0.72rem;
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    color: var(--ink);
-    border-bottom:1px solid var(--ink);
-    padding-bottom:2px;
-  }
-  .book-card .buy-link:hover{ color:var(--crimson); border-color:var(--crimson); }
-
-  /* ---------- Torn divider ---------- */
-  .divider{
-    height: 26px;
-    background: repeating-linear-gradient(
-      -45deg, var(--paper) 0 8px, transparent 8px 16px
-    );
-    background-color: var(--paper-warm);
-  }
-
-  /* ---------- About strip ---------- */
-  .about{
-    padding: 70px 6vw;
-    max-width:1180px;
-    margin: 0 auto;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items:start;
-  }
-  .about blockquote{
-    font-family:'Fraunces', serif;
-    font-style: italic;
-    font-size:1.4rem;
-    line-height:1.5;
-    margin:0;
-    color: var(--ink);
-    border-left: 3px solid var(--gold);
-    padding-left: 24px;
-  }
-  .about .bio p{ color:var(--ink-soft); }
-
-  /* ---------- Contact ---------- */
-  .contact{
-    background: var(--ink);
-    color: var(--paper);
-    padding: 90px 6vw;
-  }
-  .contact-inner{
-    max-width: 640px;
-    margin:0 auto;
-  }
-  .contact .eyebrow{ color: var(--gold); }
-  .contact h2{ color: var(--paper); }
-  .contact p.sub{ color: #B9BECC; max-width:52ch; }
-
-  form.contact-form{
-    margin-top: 36px;
-    display:grid;
-    gap: 20px;
-  }
-  .field{ display:flex; flex-direction:column; gap:8px; }
-  .field label{
-    font-family:'Space Mono', monospace;
-    font-size:0.72rem;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    color:#9CA3B8;
-  }
-  .field input, .field textarea{
-    background: rgba(251,248,242,0.06);
-    border: 1px solid rgba(251,248,242,0.22);
-    border-radius: var(--radius);
-    padding: 13px 14px;
-    font-family:'Source Serif 4', serif;
-    font-size:1rem;
-    color: var(--paper);
-    outline:none;
-    transition: border-color .2s ease, background .2s ease;
-  }
-  .field input:focus, .field textarea:focus{
-    border-color: var(--gold);
-    background: rgba(251,248,242,0.1);
-  }
-  .field textarea{ resize:vertical; min-height:120px; }
-
-  .submit-btn{
-    justify-self:start;
-    background: var(--gold);
-    color: var(--ink);
-    border:none;
-    padding: 14px 30px;
-    border-radius: var(--radius);
-    font-family:'Space Mono', monospace;
-    font-size:0.82rem;
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    cursor:pointer;
-    transition: background .2s ease, transform .15s ease;
-  }
-  .submit-btn:hover{ background:#dcb559; transform: translateY(-1px); }
-
-  .form-note{
-    font-size:0.8rem;
-    color:#8B93A6;
-    margin-top:14px;
-  }
-  .success-msg{
-    display:none;
-    margin-top:22px;
-    padding: 16px 18px;
-    border:1px solid rgba(200,155,60,0.5);
-    border-radius: var(--radius);
-    font-family:'Space Mono', monospace;
-    font-size:0.85rem;
-    color: var(--gold);
-  }
-
-  footer{
-    padding: 30px 6vw;
-    background: var(--ink);
-    color:#7A8195;
-    font-family:'Space Mono', monospace;
-    font-size:0.72rem;
-    text-align:center;
-    border-top:1px solid rgba(251,248,242,0.08);
-  }
-
-  @media (max-width: 860px){
-    .hero-grid{ grid-template-columns: 1fr; }
-    .cover-wrap{ order:-1; }
-    .about{ grid-template-columns:1fr; }
-    header{ flex-direction:column; gap:16px; align-items:flex-start; }
-    nav{ flex-wrap:wrap; }
-    nav a{ margin-left:0; margin-right:20px; }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    *{ transition:none !important; scroll-behavior:auto !important; }
-  }
-
-  :focus-visible{ outline: 2px solid var(--gold); outline-offset:2px; }
-</style>
-</head>
-<body>
-
-<header>
-  <div class="brand">Agnieszka <span>Wargoś</span></div>
-  <nav>
-    <a href="#memoir">Pamiętnik</a>
-    <a href="#nauka">Nauka polskiego</a>
-    <a href="#o-mnie">O mnie</a>
-    <a href="#kontakt">Kontakt</a>
-  </nav>
-</header>
-
-<section class="hero" id="memoir">
-  <div class="hero-grid">
-    <div>
-      <span class="eyebrow">Pamiętnik</span>
-      <h1>Dwadzieścia lat<br>w drugim języku.</h1>
-      <p class="lede">Historia emigracji, tożsamości i budowania życia od nowa — po angielsku, ale sercem wciąż po polsku. Osobista, szczera opowieść o tym, co zostaje, kiedy zmienia się wszystko wokół.</p>
-
-      <div class="buy-row">
-        <a class="btn-amazon" href="https://www.amazon.co.uk/dp/B0GXVL45MX" target="_blank" rel="noopener">
-          Kup na Amazon — twarda oprawa
-        </a>
-        <span class="price-tag">£12.99</span>
-      </div>
-      <div class="buy-row" style="margin-top:12px;">
-        <a class="btn-amazon" href="https://www.amazon.co.uk/dp/B0GX767ZQD" target="_blank" rel="noopener" style="background:transparent; color:var(--ink); border:1px solid var(--ink);">
-          Wersja Kindle
-        </a>
-        <span class="price-tag">£6.99</span>
-      </div>
-    </div>
-
-    <div class="cover-wrap">
-      <div class="cover">
-        <div class="stamp">Poleca<br>autorka</div>
-        <span class="cov-eyebrow">Memoir</span>
-        <span class="cov-title">20 Years in England</span>
-        <span class="cov-author">Agnieszka Wargoś</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section class="block lessons ruled" id="nauka">
-  <div class="section-head">
-    <span class="eyebrow">Materiały edukacyjne</span>
-    <h2>Nauka polskiego, krok po kroku.</h2>
-    <p>Podręczniki do egzaminu GCSE Polish oraz kursy dla osób uczących się polskiego od podstaw — po angielsku, z myślą o realnych potrzebach uczniów i pracujących dorosłych.</p>
-  </div>
-
-  <div class="book-grid">
-
+    <!-- GCSE Writing -->
     <div class="book-card">
       <div class="mini-cover"></div>
       <span class="tier">GCSE · Paper 4</span>
@@ -487,6 +12,7 @@
       </div>
     </div>
 
+    <!-- GCSE Reading -->
     <div class="book-card">
       <div class="mini-cover"></div>
       <span class="tier">GCSE · Reading</span>
@@ -498,28 +24,7 @@
       </div>
     </div>
 
-    <div class="book-card">
-    <div class="mini-cover"></div>
-    <span class="tier">Poziom A2</span>
-    <h3>Polski jako Drugi: A2 — Kompletny kurs języka polskiego dla obcokrajowców</h3>
-    <p class="desc">Kompletny kurs dla osób uczących się języka polskiego na poziomie A2. 66 praktycznych lekcji, dialogi, gramatyka, słownictwo, ćwiczenia i klucz odpowiedzi.</p>
-    <div class="foot">
-        <span class="price-tag mono">£24.99</span>
-        <a class="buy-link" href="https://www.amazon.co.uk/dp/B0H8TS1LDT" target="_blank" rel="noopener">Kup na Amazon</a>
-    </div>
-</div>
-
-<div class="book-card">
-    <div class="mini-cover"></div>
-    <span class="tier">Poziom B1</span>
-    <h3>Polski jako Drugi: B1 — Kompletny kurs języka polskiego dla obcokrajowców</h3>
-    <p class="desc">Kompletny kurs dla osób uczących się języka polskiego na poziomie B1. 66 praktycznych lekcji, dialogi, gramatyka, słownictwo, ćwiczenia i klucz odpowiedzi.</p>
-    <div class="foot">
-        <span class="price-tag mono">£27.99</span>
-        <a class="buy-link" href="https://www.amazon.co.uk/dp/B0H9FSNDCF" target="_blank" rel="noopener">Kup na Amazon</a>
-    </div>
-</div>
-
+    <!-- GCSE Speaking -->
     <div class="book-card">
       <div class="mini-cover"></div>
       <span class="tier">GCSE · Speaking</span>
@@ -531,6 +36,7 @@
       </div>
     </div>
 
+    <!-- A1 -->
     <div class="book-card">
       <div class="mini-cover"></div>
       <span class="tier">Poziom A1</span>
@@ -542,6 +48,31 @@
       </div>
     </div>
 
+    <!-- A2 -->
+    <div class="book-card">
+      <div class="mini-cover"></div>
+      <span class="tier">Poziom A2</span>
+      <h3>Polski jako Drugi: A2 — Kompletny kurs języka polskiego dla obcokrajowców</h3>
+      <p class="desc">Kompletny kurs dla osób uczących się języka polskiego na poziomie A2. 66 praktycznych lekcji, dialogi, gramatyka, słownictwo, ćwiczenia i klucz odpowiedzi.</p>
+      <div class="foot">
+        <span class="price-tag mono">£24.99</span>
+        <a class="buy-link" href="https://www.amazon.co.uk/dp/B0H8TS1LDT" target="_blank" rel="noopener">Kup na Amazon</a>
+      </div>
+    </div>
+
+    <!-- B1 -->
+    <div class="book-card">
+      <div class="mini-cover"></div>
+      <span class="tier">Poziom B1</span>
+      <h3>Polski jako Drugi: B1 — Kompletny kurs języka polskiego dla obcokrajowców</h3>
+      <p class="desc">Kompletny kurs dla osób uczących się języka polskiego na poziomie B1. 66 praktycznych lekcji, dialogi, gramatyka, słownictwo, ćwiczenia i klucz odpowiedzi.</p>
+      <div class="foot">
+        <span class="price-tag mono">£27.99</span>
+        <a class="buy-link" href="https://www.amazon.co.uk/dp/B0H9FSNDCF" target="_blank" rel="noopener">Kup na Amazon</a>
+      </div>
+    </div>
+
+    <!-- Business A1 -->
     <div class="book-card">
       <div class="mini-cover"></div>
       <span class="tier">Business · A1</span>
@@ -553,51 +84,4 @@
       </div>
     </div>
 
-  </div>
-</section>
-
-<section class="about" id="o-mnie">
-  <div>
-    <blockquote>Pisanie po polsku i uczenie polskiego to dla mnie ten sam gest — powrót do domu, który noszę w sobie niezależnie od tego, gdzie mieszkam.</blockquote>
-  </div>
-  <div class="bio">
-    <span class="eyebrow">O autorce</span>
-    <p>Agnieszka Wargoś od dwudziestu lat mieszka w Anglii. Łączy pisanie osobistej prozy z tworzeniem materiałów do nauki języka polskiego — od podręczników przygotowujących do egzaminu GCSE, po kursy dla dorosłych uczących się polskiego od podstaw.</p>
-  </div>
-</section>
-
-<section class="contact" id="kontakt">
-  <div class="contact-inner">
-    <span class="eyebrow">Kontakt</span>
-    <h2>Napisz do mnie.</h2>
-    <p class="sub">Pytania o książki, współpracę, zamówienia hurtowe albo materiały dla szkół — chętnie odpowiem.</p>
-
-    <form class="contact-form" id="contactForm" action="https://formsubmit.co/awargos@gmail.com" method="POST">
-      <input type="hidden" name="_subject" value="Nowa wiadomość ze strony — Agnieszka Wargoś">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-
-      <div class="field">
-        <label for="name">Imię i nazwisko</label>
-        <input type="text" id="name" name="name" required>
-      </div>
-      <div class="field">
-        <label for="email">Adres e-mail</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="field">
-        <label for="message">Wiadomość</label>
-        <textarea id="message" name="message" required></textarea>
-      </div>
-      <button class="submit-btn" type="submit">Wyślij wiadomość</button>
-      <p class="form-note">Formularz wysyła wiadomość bezpośrednio na e-mail autorki (obsługa: formsubmit.co, bez potrzeby własnego serwera).</p>
-    </form>
-  </div>
-</section>
-
-<footer>
-  © 2026 Agnieszka Wargoś · Wszystkie prawa zastrzeżone
-</footer>
-
-</body>
-</html>
+</div>
