@@ -239,17 +239,29 @@
   .book-card:hover{ transform: translateY(-3px); box-shadow: 0 16px 34px -18px rgba(28,35,51,0.25); }
 
   .mini-cover{
-    width: 44px; height:60px;
-    border-radius:2px;
-    background: linear-gradient(155deg, var(--ink), #303955 70%);
-    position:relative;
-    flex-shrink:0;
-  }
-  .mini-cover::after{
-    content:"";
-    position:absolute; left:9px; top:8px; right:9px; bottom:8px;
-    border-top:1px solid rgba(200,155,60,0.55);
-  }
+  width:72px;
+  height:100px;
+  border-radius:3px;
+  background-color:#fff;
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+  box-shadow:0 5px 12px rgba(28,35,51,0.18);
+  flex-shrink:0;
+}
+
+.mini-cover::after{
+  display:none;
+}
+
+.book-card:nth-child(1) .mini-cover{ background-image:url('gcse-writing.png'); }
+.book-card:nth-child(2) .mini-cover{ background-image:url('gcse-reading.png'); }
+.book-card:nth-child(3) .mini-cover{ background-image:url('gcse-speaking.png'); }
+.book-card:nth-child(4) .mini-cover{ background-image:url('polish-a1.png'); }
+.book-card:nth-child(5) .mini-cover{ background-image:url('polish-a2.png'); }
+.book-card:nth-child(6) .mini-cover{ background-image:url('polish-b1.png'); }
+.book-card:nth-child(7) .mini-cover{ background-image:url('polish-b2.png'); }
+.book-card:nth-child(8) .mini-cover{ background-image:url('polish-c1.png'); }
   .book-card .tier{
     font-family:'Space Mono', monospace;
     font-size:0.65rem;
