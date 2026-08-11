@@ -32,11 +32,8 @@ nav{display:flex;}
 .btn-amazon svg{width:14px;height:14px;}
 .price-tag{font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--ink-soft);}
 .cover-wrap{position:relative;display:flex;justify-content:center;}
-.cover{width:280px;aspect-ratio:2/3;background:linear-gradient(155deg,var(--crimson-deep),var(--crimson) 65%);border-radius:2px;box-shadow:0 30px 60px -20px rgba(28,35,51,0.45),0 2px 0 rgba(255,255,255,0.08) inset;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:30px 26px;color:#F5EAE2;transform:rotate(-2deg);}
-.cover::before{content:"";position:absolute;left:16px;top:0;bottom:0;width:1px;background:rgba(245,234,226,0.25);}
-.cover .cov-eyebrow{font-family:'Space Mono',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;opacity:0.75;}
-.cover .cov-title{font-family:'Fraunces',serif;font-size:1.65rem;font-weight:700;line-height:1.15;}
-.cover .cov-author{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.06em;opacity:0.85;}
+.cover-photo{position:relative;width:280px;max-width:100%;transform:rotate(-2deg);}
+.cover-photo img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:2px;box-shadow:0 30px 60px -20px rgba(28,35,51,0.45);}
 .stamp{position:absolute;top:-22px;right:-34px;width:108px;height:108px;border:3px solid var(--crimson);border-radius:50%;display:flex;align-items:center;justify-content:center;transform:rotate(12deg);background:rgba(251,248,242,0.9);color:var(--crimson);font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;text-align:center;letter-spacing:0.06em;line-height:1.3;box-shadow:0 8px 20px rgba(163,38,56,0.18);}
 section.block{padding:80px 6vw;max-width:1180px;margin:0 auto;}
 .section-head{margin-bottom:48px;max-width:60ch;}
@@ -106,11 +103,9 @@ footer{padding:30px 6vw;background:var(--ink);color:#7A8195;font-family:'Space M
 </div>
 </div>
 <div class="cover-wrap">
-<div class="cover">
+<div class="cover-photo">
 <div class="stamp">Poleca<br>autorka</div>
-<span class="cov-eyebrow">Memoir</span>
-<span class="cov-title">20 Years in England</span>
-<span class="cov-author">Agnieszka Wargoś</span>
+<img src="memoir.png" alt="20 Years in England — Agnieszka Wargoś">
 </div>
 </div>
 </div>
