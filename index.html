@@ -55,10 +55,12 @@ section.block{padding:80px 6vw;max-width:1180px;margin:0 auto;}
 .book-card .buy-link{text-decoration:none;font-family:'Space Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px;}
 .book-card .buy-link:hover{color:var(--crimson);border-color:var(--crimson);}
 .divider{height:26px;background:repeating-linear-gradient(-45deg,var(--paper) 0 8px,transparent 8px 16px);background-color:var(--paper-warm);}
-.about{padding:70px 6vw;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.about{position:relative;overflow:hidden;padding:70px 6vw;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.about::before{content:"";position:absolute;inset:0;background:url('ogrod.jpg') center/cover;opacity:0.08;pointer-events:none;z-index:0;}
+.about>div{position:relative;z-index:1;}
 .about blockquote{font-family:'Fraunces',serif;font-style:italic;font-size:1.4rem;line-height:1.5;margin:0;color:var(--ink);border-left:3px solid var(--gold);padding-left:24px;}
 .about .bio p{color:var(--ink-soft);}
-.about-flower{width:128px;height:128px;border-radius:50%;background-image:url('slonecznik.png');background-size:cover;background-position:50% 27%;border:3px solid rgba(200,155,60,0.6);box-shadow:0 12px 26px -10px rgba(28,35,51,0.4);margin-bottom:28px;}
+.about-portrait{width:140px;height:140px;border-radius:50%;background-image:url('agnieszka.jpg');background-size:cover;background-position:50% 15%;border:3px solid rgba(200,155,60,0.6);box-shadow:0 12px 26px -10px rgba(28,35,51,0.4);margin-bottom:28px;}
 .garden-band{height:200px;margin:8px 6vw 0;border-radius:var(--radius);background:url('ogrod.jpg') 50% 34%/cover;box-shadow:0 16px 34px -20px rgba(28,35,51,0.38);}
 @media (max-width:860px){.garden-band{height:130px;margin:0 16px;}}
 .contact{background:var(--ink);color:var(--paper);padding:90px 6vw;}
@@ -280,7 +282,7 @@ footer{padding:30px 6vw;background:var(--ink);color:#7A8195;font-family:'Space M
 </section>
 <section class="about" id="o-mnie">
 <div>
-<div class="about-flower" role="img" aria-label="Słonecznik z ogrodu autorki"></div>
+<div class="about-portrait" role="img" aria-label="Agnieszka Wargoś"></div>
 <blockquote>Język służy do porozumiewania się — do rozmowy z drugim człowiekiem. Nie trzeba wielu: dwa, trzy języki to już poliglota.<span class="mono" style="display:block;margin-top:18px;font-size:0.82rem;font-style:normal;color:var(--ink-soft);">— Agnieszka Wargoś</span></blockquote>
 </div>
 <div class="bio">
