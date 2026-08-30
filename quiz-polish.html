@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can You Actually Say It in Polish?</title>
+<style>
+  :root{
+    --bg:#FBF9F6; --card:#FFFFFF; --ink:#1E2321; --muted:#6E7671;
+    --line:#E5E0D8; --accent:#8B2233; --accent-soft:#F7EAEC;
+    --ok:#2C7A57; --ok-soft:#E7F2EC; --bad:#A93B45; --bad-soft:#FAEAEB;
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14171A; --card:#1B1F23; --ink:#E9E6E1; --muted:#9AA3A0;
+      --line:#2C3237; --accent:#E0798C; --accent-soft:#2A1B1F;
+      --ok:#5DBF92; --ok-soft:#1B2A23; --bad:#E4737E; --bad-soft:#2C1D20;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:680px; margin:0 auto; padding:32px 20px 64px}
+  header{text-align:center; margin-bottom:30px}
+  .eyebrow{
+    display:inline-block; font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft); padding:5px 12px; border-radius:999px;
+    font-weight:600;
+  }
+  h1{
+    font-family:Georgia,"Times New Roman",serif; font-weight:600;
+    font-size:clamp(26px,5vw,36px); line-height:1.22; margin:16px 0 8px;
+  }
+  .lede{color:var(--muted); margin:0; font-size:17px}
+  .tabs{display:flex; gap:8px; margin:28px 0 20px}
+  .tab{
+    flex:1; padding:11px 8px; border:1px solid var(--line); background:transparent;
+    color:var(--muted); border-radius:10px; font-size:15px; font-weight:600;
+    cursor:pointer; font-family:inherit; transition:.15s;
+  }
+  .tab:hover{border-color:var(--accent); color:var(--ink)}
+  .tab[aria-selected="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+  .panel[hidden]{display:none}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; margin-bottom:16px;
+  }
+  .num{font-size:12px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; font-weight:600}
+  .q{font-size:18px; margin:8px 0 16px; font-weight:500}
+  .q em{color:var(--muted); font-style:normal; font-size:15px; display:block; margin-top:3px}
+  .opts{display:flex; flex-direction:column; gap:10px}
+  .opt{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left;
+    padding:14px 16px; border:1px solid var(--line); background:transparent; color:var(--ink);
+    border-radius:10px; font-size:17px; cursor:pointer; font-family:inherit; transition:.15s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--accent); background:var(--accent-soft)}
+  .opt:disabled{cursor:default}
+  .opt .letter{
+    flex:none; width:26px; height:26px; border-radius:6px; border:1px solid var(--line);
+    display:grid; place-items:center; font-size:13px; font-weight:700; color:var(--muted);
+  }
+  .opt.correct{border-color:var(--ok); background:var(--ok-soft)}
+  .opt.correct .letter{border-color:var(--ok); color:var(--ok)}
+  .opt.wrong{border-color:var(--bad); background:var(--bad-soft)}
+  .opt.wrong .letter{border-color:var(--bad); color:var(--bad)}
+  .why{
+    margin-top:14px; padding:14px 16px; border-radius:10px; font-size:15px;
+    background:var(--accent-soft); border-left:3px solid var(--accent);
+  }
+  .why b{color:var(--accent)}
+  .why[hidden]{display:none}
+  .dlg{margin:0 0 4px}
+  .line{display:flex; gap:10px; padding:9px 0; align-items:baseline; flex-wrap:wrap}
+  .who{flex:none; width:62px; font-weight:600; color:var(--muted); font-size:14px}
+  .say{flex:1; min-width:200px; font-size:17px}
+  .say .tr{display:block; font-size:14px; color:var(--muted); margin-top:2px}
+  select{
+    font:inherit; font-size:16px; padding:4px 8px; border-radius:7px;
+    border:1px solid var(--accent); background:var(--card); color:var(--ink);
+    max-width:100%; cursor:pointer;
+  }
+  select.correct{border-color:var(--ok); background:var(--ok-soft); color:var(--ok); font-weight:600}
+  select.wrong{border-color:var(--bad); background:var(--bad-soft); color:var(--bad); font-weight:600}
+  .check{
+    margin-top:16px; padding:11px 20px; border:0; border-radius:9px;
+    background:var(--accent); color:#fff; font:inherit; font-weight:600; cursor:pointer;
+  }
+  .check:hover{opacity:.9}
+  .score{
+    text-align:center; padding:28px 22px; border:1px solid var(--line);
+    border-radius:var(--radius); background:var(--card); margin-top:8px;
+  }
+  .score .big{font-family:Georgia,serif; font-size:34px; font-weight:600; display:block; margin-bottom:4px}
+  .score p{color:var(--muted); margin:6px 0 20px; font-size:15px}
+  .cta{
+    display:inline-block; padding:13px 26px; background:var(--accent); color:#fff;
+    text-decoration:none; border-radius:9px; font-weight:600;
+  }
+  .cta:hover{opacity:.9}
+  .alt{display:block; margin-top:14px; font-size:14px; color:var(--muted)}
+  .alt a{color:var(--accent)}
+  .foot{text-align:center; color:var(--muted); font-size:13px; margin-top:28px; line-height:1.8}
+  .foot a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p style="text-align:center;margin:0 0 18px"><a href="./" style="font-size:13px;color:var(--muted);text-decoration:none">&larr; agnieszkawargos.pl</a></p>
+
+  <header>
+    <span class="eyebrow">Polish for English Speakers · A1–B1</span>
+    <h1>You can read Polish. Can you say it correctly?</h1>
+    <p class="lede">Seventeen short tasks on the mistakes English speakers make most often. Two minutes, no sign-up.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-panel="quiz">Quiz — 6 questions</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="dialogi">Dialogues — fill the gaps</button>
+  </div>
+
+  <div class="panel" id="quiz"></div>
+  <div class="panel" id="dialogi" hidden></div>
+
+  <div class="score" id="score" hidden>
+    <span class="big" id="scoreBig"></span>
+    <p id="scoreMsg"></p>
+    <a class="cta" id="scoreCta" href="#">Look inside</a>
+    <span class="alt" id="scoreAlt"></span>
+  </div>
+
+  <p class="foot">
+    <strong>Polish: A Complete Course for English Speakers</strong> by Agnieszka Wargoś<br>
+    <a href="https://www.amazon.com/dp/B0HG2T6H7M">Polish A1</a> ·
+    <a href="https://www.amazon.com/dp/B0HGNSG43G">Polish B1</a> ·
+    available in paperback and Kindle
+  </p>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var LINK_A1 = 'https://www.amazon.com/dp/B0HG2T6H7M';
+  var LINK_B1 = 'https://www.amazon.com/dp/B0HGNSG43G';
+
+  var QUIZ = [
+    {
+      q:'“I have a dog.”', sub:'',
+      a:['Mam pies.','Mam psa.'], correct:1,
+      why:'Polish marks the object of a verb with the accusative case. Masculine animate nouns like <i>pies</i> take <b>psa</b>. The dictionary form <i>pies</i> only works when the dog is the subject: <i>Pies śpi.</i>'
+    },
+    {
+      q:'A woman says: “I was in Kraków yesterday.”', sub:'',
+      a:['Wczoraj byłem w Krakowie.','Wczoraj byłam w Krakowie.'], correct:1,
+      why:'Polish past-tense verbs carry the speaker’s gender. A man says <i>byłem</i>, a woman says <b>byłam</b>. There is no neutral form — you choose every time you talk about the past.'
+    },
+    {
+      q:'“I don’t have time.”', sub:'',
+      a:['Nie mam czas.','Nie mam czasu.'], correct:1,
+      why:'Negation changes the case. <i>Mam czas</i> (accusative) becomes <b>Nie mam czasu</b> (genitive). Every negated direct object in Polish switches to the genitive — no exceptions.'
+    },
+    {
+      q:'“I’m a teacher.”', sub:'',
+      a:['Jestem nauczyciel.','Jestem nauczycielem.'], correct:1,
+      why:'After <i>jestem</i>, jobs and identities take the instrumental: <b>jestem nauczycielem</b>, <i>jestem studentką</i>, <i>jestem Anglikiem</i>. The plain nominative sounds unfinished to a Polish ear.'
+    },
+    {
+      q:'“I’m going to Warsaw tomorrow — by train.”', sub:'',
+      a:['Jutro idę do Warszawy.','Jutro jadę do Warszawy.'], correct:1,
+      why:'Polish splits “go” into two verbs. <i>Iść</i> is on foot; <b>jechać</b> is by any vehicle. Say <i>idę do sklepu</i> (walking to the shop) but <b>jadę do Warszawy</b> (travelling there).'
+    },
+    {
+      q:'“I’m at the post office.”', sub:'',
+      a:['Jestem w poczcie.','Jestem na poczcie.'], correct:1,
+      why:'Most places take <i>w</i> — <i>w sklepie</i>, <i>w domu</i>, <i>w Polsce</i>. A small set takes <b>na</b>: <b>na poczcie</b>, <i>na dworcu</i>, <i>na lotnisku</i>, <i>na uniwersytecie</i>. This one is learned word by word.'
+    }
+  ];
+
+  var DIALOGI = [
+    {
+      title:'In a café', level:'A1',
+      lines:[
+        {who:'Barista', pre:'Dzień dobry! Co dla pana?', tr:'Good morning! What can I get you?'},
+        {who:'You', pre:'Poproszę ', gap:{opts:['kawa','kawę','kawy'], correct:'kawę',
+          why:'<i>Poproszę</i> (“I’d like”) takes the accusative. Feminine nouns ending in <i>-a</i> change to <i>-ę</i>: <i>kawa</i> → <b>kawę</b>, <i>herbata</i> → <i>herbatę</i>.'},
+          post:'.', tr:'I’d like a coffee.'},
+        {who:'Barista', pre:'Duża czy mała?', tr:'Large or small?'},
+        {who:'You', pre:'Dużą. I ', gap:{opts:['jeden','jedno','jedna'], correct:'jedno',
+          why:'<i>Ciastko</i> is neuter, so the number agrees with it: <b>jedno ciastko</b>. Masculine takes <i>jeden</i>, feminine <i>jedna</i>.'},
+          post:' ciastko.', tr:'A large one. And one pastry.'},
+        {who:'Barista', pre:'Razem osiemnaście złotych.', tr:'That’s eighteen złoty.'},
+        {who:'You', pre:'Płacę ', gap:{opts:['karta','kartę','kartą'], correct:'kartą',
+          why:'The instrumental answers “by what means”. <b>Płacę kartą</b> — I pay by card. Same case as <i>jadę pociągiem</i> (I travel by train).'},
+          post:'.', tr:'I’ll pay by card.'}
+      ]
+    },
+    {
+      title:'Meeting someone', level:'A1–A2',
+      lines:[
+        {who:'Ola', pre:'Cześć! Jestem Ola.', tr:'Hi! I’m Ola.'},
+        {who:'Tom', pre:'Miło mi. Tom. Jestem ', gap:{opts:['inżynier','inżyniera','inżynierem'], correct:'inżynierem',
+          why:'Same rule as in the quiz: after <i>jestem</i>, a profession takes the instrumental — <b>inżynierem</b>.'},
+          post:'.', tr:'Nice to meet you. Tom. I’m an engineer.'},
+        {who:'Ola', pre:'Skąd jesteś?', tr:'Where are you from?'},
+        {who:'Tom', pre:'', gap:{opts:['Z','W','Do'], correct:'Z',
+          why:'“From” is <b>z</b> + genitive: <b>z Anglii</b>, <i>z Polski</i>, <i>z Londynu</i>. <i>W</i> means “in”, <i>do</i> means “to”.'},
+          post:' Anglii, ale mieszkam w Warszawie.', tr:'From England, but I live in Warsaw.'},
+        {who:'Ola', pre:'Jak długo?', tr:'How long?'},
+        {who:'Tom', pre:'Dwa ', gap:{opts:['rok','roku','lata'], correct:'lata',
+          why:'Polish counts in groups. 2, 3 and 4 take <b>lata</b>; 5 and above take <i>lat</i>. So <b>dwa lata</b>, but <i>pięć lat</i>. And the singular is <i>rok</i> — an irregular set worth memorising whole.'},
+          post:'.', tr:'Two years.'},
+        {who:'Ola', pre:'Świetnie mówisz po polsku!', tr:'You speak Polish really well!'},
+        {who:'Tom', pre:'Dziękuję. Uczę ', gap:{opts:['sobie','siebie','się'], correct:'się',
+          why:'<i>Uczyć się</i> (“to learn”) is reflexive, and <b>się</b> never changes form. <i>Sobie</i> and <i>siebie</i> are different pronouns that don’t belong here.'},
+          post:' codziennie.', tr:'Thank you. I study every day.'}
+      ]
+    },
+    {
+      title:'How was your weekend?', level:'A2–B1',
+      lines:[
+        {who:'Anna', pre:'Co robiłaś w weekend?', tr:'What did you do at the weekend?'},
+        {who:'Kate', pre:'', gap:{opts:['Czytałam','Przeczytałam'], correct:'Czytałam',
+          why:'Aspect. <b>Czytałam</b> (imperfective) describes the activity without saying it finished — which is why the rest of the sentence works. <i>Przeczytałam</i> would mean you finished the book, contradicting “ale jej nie skończyłam”.'},
+          post:' książkę, ale jej nie skończyłam.', tr:'I was reading a book, but I didn’t finish it.'},
+        {who:'Anna', pre:'A w niedzielę?', tr:'And on Sunday?'},
+        {who:'Kate', pre:'', gap:{opts:['Szłam','Chodziłam','Jechałam'], correct:'Jechałam',
+          why:'By train means <i>jechać</i>, so a woman says <b>Jechałam</b>. <i>Szłam</i> would mean walking there; <i>chodziłam</i> means going repeatedly, as a habit.'},
+          post:' do Krakowa pociągiem.', tr:'I went to Kraków by train.'},
+        {who:'Anna', pre:'I jak było?', tr:'And how was it?'},
+        {who:'Kate', pre:'Super, chociaż nie miałam ', gap:{opts:['czas','czasu','czasem'], correct:'czasu',
+          why:'Negation again: <i>miałam czas</i> becomes <b>nie miałam czasu</b>. The genitive after a negated verb is one of the most useful patterns in Polish.'},
+          post:' na wszystko.', tr:'Great, though I didn’t have time for everything.'},
+        {who:'Anna', pre:'Następnym razem jadę z tobą!', tr:'Next time I’m coming with you!'},
+        {who:'Kate', pre:'', gap:{opts:['Świetny','Świetna','Świetnie'], correct:'Świetnie',
+          why:'As a reaction on its own, Polish uses the adverb <b>Świetnie!</b> (“Great!”). <i>Świetny</i> and <i>świetna</i> are adjectives and would need a noun to describe.'},
+          post:'!', tr:'Great!'}
+      ]
+    }
+  ];
+
+  var TOTAL = QUIZ.length;
+  DIALOGI.forEach(function(d){ d.lines.forEach(function(l){ if(l.gap) TOTAL++; }); });
+  var answered = 0, correctCount = 0;
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /* ---------- QUIZ ---------- */
+  var quizEl = document.getElementById('quiz');
+  QUIZ.forEach(function(item, i){
+    var card = document.createElement('div');
+    card.className = 'card';
+    var html = '<div class="num">Question ' + (i+1) + ' of ' + QUIZ.length + '</div>' +
+               '<div class="q">' + item.q + '</div><div class="opts">';
+    item.a.forEach(function(opt, j){
+      html += '<button class="opt" data-i="' + j + '"><span class="letter">' +
+              'AB'[j] + '</span><span>' + esc(opt) + '</span></button>';
+    });
+    html += '</div><div class="why" hidden>' + item.why + '</div>';
+    card.innerHTML = html;
+
+    var btns = card.querySelectorAll('.opt');
+    var why = card.querySelector('.why');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if (btn.disabled) return;
+        var picked = +btn.dataset.i;
+        btns.forEach(function(b){
+          b.disabled = true;
+          if (+b.dataset.i === item.correct) b.classList.add('correct');
+        });
+        if (picked !== item.correct) btn.classList.add('wrong'); else correctCount++;
+        why.hidden = false;
+        answered++; updateScore();
+      });
+    });
+    quizEl.appendChild(card);
+  });
+
+  /* ---------- DIALOGUES ---------- */
+  var dlgEl = document.getElementById('dialogi');
+  DIALOGI.forEach(function(d, di){
+    var card = document.createElement('div');
+    card.className = 'card';
+    var html = '<div class="num">Dialogue ' + (di+1) + ' · ' + d.level + '</div>' +
+               '<div class="q">' + esc(d.title) + '</div><div class="dlg">';
+    d.lines.forEach(function(l, li){
+      html += '<div class="line"><span class="who">' + esc(l.who) + '</span><span class="say">' + esc(l.pre);
+      if (l.gap){
+        html += '<select data-d="' + di + '" data-l="' + li + '"><option value="">— choose —</option>';
+        l.gap.opts.forEach(function(o){ html += '<option value="' + esc(o) + '">' + esc(o) + '</option>'; });
+        html += '</select>';
+      }
+      html += esc(l.post || '');
+      if (l.tr) html += '<span class="tr">' + esc(l.tr) + '</span>';
+      html += '</span></div>';
+      if (l.gap) html += '<div class="why" data-why="' + di + '-' + li + '" hidden>' + l.gap.why + '</div>';
+    });
+    html += '</div><button class="check">Check this dialogue</button>';
+    card.innerHTML = html;
+
+    card.querySelector('.check').addEventListener('click', function(){
+      var sels = card.querySelectorAll('select'), missing = false;
+      sels.forEach(function(s){ if (!s.value) missing = true; });
+      if (missing){ this.textContent = 'Fill in every gap first'; return; }
+
+      sels.forEach(function(s){
+        if (s.disabled) return;
+        var line = DIALOGI[+s.dataset.d].lines[+s.dataset.l];
+        var ok = s.value === line.gap.correct;
+        s.classList.add(ok ? 'correct' : 'wrong');
+        if (!ok) s.value = line.gap.correct;
+        s.disabled = true;
+        card.querySelector('[data-why="' + s.dataset.d + '-' + s.dataset.l + '"]').hidden = false;
+        if (ok) correctCount++;
+        answered++;
+      });
+      this.remove();
+      updateScore();
+    });
+
+    dlgEl.appendChild(card);
+  });
+
+  /* ---------- SCORE ---------- */
+  var scoreEl = document.getElementById('score');
+  function updateScore(){
+    if (answered < TOTAL) return;
+    var pct = correctCount / TOTAL * 100;
+    document.getElementById('scoreBig').textContent = correctCount + ' / ' + TOTAL;
+    var msg, cta, ctaHref, alt;
+    if (pct >= 80){
+      msg = 'You already handle the cases that stop most learners. The next step is using them without pausing to think — that is what B1 is for.';
+      cta = 'Look inside Polish B1'; ctaHref = LINK_B1;
+      alt = 'Starting from scratch instead? <a href="' + LINK_A1 + '">Polish A1</a>';
+    } else if (pct >= 45){
+      msg = 'You recognise the patterns but they are not automatic yet — which is exactly the gap between reading Polish and speaking it.';
+      cta = 'Look inside Polish A1'; ctaHref = LINK_A1;
+      alt = 'Already comfortable with the basics? <a href="' + LINK_B1 + '">Polish B1</a>';
+    } else {
+      msg = 'Plenty to sort out here — and that is good news, because these are rules, not exceptions. Learn them once and they hold across the whole language.';
+      cta = 'Start with Polish A1'; ctaHref = LINK_A1;
+      alt = 'Paperback and Kindle, both on Amazon.';
+    }
+    document.getElementById('scoreMsg').textContent = msg;
+    var c = document.getElementById('scoreCta');
+    c.textContent = cta; c.href = ctaHref;
+    document.getElementById('scoreAlt').innerHTML = alt;
+    scoreEl.hidden = false;
+    scoreEl.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  /* ---------- TABS ---------- */
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){
+        var on = t === tab;
+        t.setAttribute('aria-selected', on);
+        document.getElementById(t.dataset.panel).hidden = !on;
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

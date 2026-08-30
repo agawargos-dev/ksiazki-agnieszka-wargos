@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Start — sprawdź się w 2 minuty</title>
+<style>
+  :root{
+    --bg:#FBF9F6; --card:#FFFFFF; --ink:#1E2321; --muted:#6E7671;
+    --line:#E5E0D8; --accent:#B0512A; --accent-soft:#F6EBE4;
+    --ok:#2C7A57; --ok-soft:#E7F2EC; --bad:#A93B45; --bad-soft:#FAEAEB;
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14171A; --card:#1B1F23; --ink:#E9E6E1; --muted:#9AA3A0;
+      --line:#2C3237; --accent:#E08055; --accent-soft:#2A211C;
+      --ok:#5DBF92; --ok-soft:#1B2A23; --bad:#E4737E; --bad-soft:#2C1D20;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:680px; margin:0 auto; padding:32px 20px 64px}
+  header{text-align:center; margin-bottom:32px}
+  .eyebrow{
+    display:inline-block; font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft); padding:5px 12px; border-radius:999px;
+    font-weight:600;
+  }
+  h1{
+    font-family:Georgia,"Times New Roman",serif; font-weight:600;
+    font-size:clamp(26px,5vw,36px); line-height:1.2; margin:16px 0 8px;
+  }
+  .lede{color:var(--muted); margin:0; font-size:17px}
+  .tabs{display:flex; gap:8px; margin:28px 0 20px}
+  .tab{
+    flex:1; padding:11px 8px; border:1px solid var(--line); background:transparent;
+    color:var(--muted); border-radius:10px; font-size:15px; font-weight:600;
+    cursor:pointer; font-family:inherit; transition:.15s;
+  }
+  .tab:hover{border-color:var(--accent); color:var(--ink)}
+  .tab[aria-selected="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+  .panel[hidden]{display:none}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; margin-bottom:16px;
+  }
+  .num{font-size:12px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; font-weight:600}
+  .q{font-size:18px; margin:8px 0 16px; font-weight:500}
+  .opts{display:flex; flex-direction:column; gap:10px}
+  .opt{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left;
+    padding:14px 16px; border:1px solid var(--line); background:transparent; color:var(--ink);
+    border-radius:10px; font-size:17px; cursor:pointer; font-family:inherit; transition:.15s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--accent); background:var(--accent-soft)}
+  .opt:disabled{cursor:default}
+  .opt .letter{
+    flex:none; width:26px; height:26px; border-radius:6px; border:1px solid var(--line);
+    display:grid; place-items:center; font-size:13px; font-weight:700; color:var(--muted);
+  }
+  .opt.correct{border-color:var(--ok); background:var(--ok-soft)}
+  .opt.correct .letter{border-color:var(--ok); color:var(--ok)}
+  .opt.wrong{border-color:var(--bad); background:var(--bad-soft)}
+  .opt.wrong .letter{border-color:var(--bad); color:var(--bad)}
+  .why{
+    margin-top:14px; padding:14px 16px; border-radius:10px; font-size:15px;
+    background:var(--accent-soft); border-left:3px solid var(--accent);
+  }
+  .why b{color:var(--accent)}
+  .why[hidden]{display:none}
+  .dlg{margin:0 0 4px}
+  .line{display:flex; gap:10px; padding:9px 0; align-items:baseline; flex-wrap:wrap}
+  .who{flex:none; width:62px; font-weight:600; color:var(--muted); font-size:14px}
+  .say{flex:1; min-width:200px; font-size:17px}
+  select{
+    font:inherit; font-size:16px; padding:4px 8px; border-radius:7px;
+    border:1px solid var(--accent); background:var(--card); color:var(--ink);
+    max-width:100%; cursor:pointer;
+  }
+  select.correct{border-color:var(--ok); background:var(--ok-soft); color:var(--ok); font-weight:600}
+  select.wrong{border-color:var(--bad); background:var(--bad-soft); color:var(--bad); font-weight:600}
+  .check{
+    margin-top:16px; padding:11px 20px; border:0; border-radius:9px;
+    background:var(--accent); color:#fff; font:inherit; font-weight:600; cursor:pointer;
+  }
+  .check:hover{opacity:.9}
+  .score{
+    text-align:center; padding:26px 22px; border:1px solid var(--line);
+    border-radius:var(--radius); background:var(--card); margin-top:8px;
+  }
+  .score .big{font-family:Georgia,serif; font-size:34px; font-weight:600; display:block; margin-bottom:4px}
+  .score p{color:var(--muted); margin:6px 0 18px; font-size:15px}
+  .cta{
+    display:inline-block; padding:13px 26px; background:var(--accent); color:#fff;
+    text-decoration:none; border-radius:9px; font-weight:600;
+  }
+  .cta:hover{opacity:.9}
+  .foot{text-align:center; color:var(--muted); font-size:13px; margin-top:28px}
+  .foot a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p style="text-align:center;margin:0 0 18px"><a href="./" style="font-size:13px;color:var(--muted);text-decoration:none">&larr; agnieszkawargos.pl</a></p>
+
+  <header>
+    <span class="eyebrow">English Start · A1–C2</span>
+    <h1>Rozumiesz angielski. Ale czy powiesz to dobrze?</h1>
+    <p class="lede">Osiem zadań na błędy, które Polacy popełniają najczęściej. Zajmie ci to dwie minuty.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-panel="quiz">Quiz — 5 pytań</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="dialogi">Dialogi — uzupełnij</button>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="panel" id="quiz"></div>
+
+  <!-- ============ DIALOGI ============ -->
+  <div class="panel" id="dialogi" hidden></div>
+
+  <div class="score" id="score" hidden>
+    <span class="big" id="scoreBig"></span>
+    <p id="scoreMsg"></p>
+    <a class="cta" href="https://agawargos-dev.github.io/ksiazki-agnieszka-wargos/">Pierwszy rozdział — bezpłatnie</a>
+  </div>
+
+  <p class="foot">English Start — kurs angielskiego dla dorosłych ·
+    <a href="https://agawargos-dev.github.io/ksiazki-agnieszka-wargos/">agawargos.dev</a></p>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var QUIZ = [
+    {
+      q: 'Które zdanie znaczy „jestem nudny"?',
+      a: ['I am bored.', 'I am boring.'],
+      correct: 1,
+      why: '<b>I am boring</b> to opinia o sobie — <i>boring</i> opisuje to, co nudę wywołuje. <b>I am bored</b> znaczy „nudzę się" — <i>bored</i> opisuje tego, kto ją odczuwa. Ta sama zasada działa przy <i>interesting</i> i <i>interested</i>.'
+    },
+    {
+      q: 'Masz trzydzieści lat. Jak to powiesz?',
+      a: ['I have thirty years.', 'I am thirty years old.'],
+      correct: 1,
+      why: 'Po polsku, francusku czy hiszpańsku wiek się <i>ma</i>. Po angielsku wiekiem się <i>jest</i>: <b>I am thirty</b>. Samo <i>years old</i> można pominąć.'
+    },
+    {
+      q: 'Prosisz kogoś o zrobienie zdjęcia.',
+      a: ['Can you make a photo?', 'Can you take a photo?'],
+      correct: 1,
+      why: 'Zdjęcie po angielsku się <i>bierze</i>: <b>take a photo</b>, <i>take a break</i>, <i>take a seat</i>. <i>Make</i> zostaje przy rzeczach, które powstają: <i>make a film</i>, <i>make dinner</i>, <i>make a mistake</i>.'
+    },
+    {
+      q: 'Mówisz lekarzowi, że czujesz się lepiej.',
+      a: ['I feel myself better.', 'I feel better.'],
+      correct: 1,
+      why: '<i>Feel</i> w znaczeniu samopoczucia nie potrzebuje <i>myself</i>: <b>I feel better</b>, <i>I feel tired</i>, <i>I feel at home</i>. Polskie „czuć <i>się</i>" ma zaimek — angielskie <i>feel</i> nie ma.'
+    },
+    {
+      q: 'Pytasz nowego współpracownika, od jak dawna tu pracuje.',
+      a: ['How long are you working here?', 'How long have you been working here?'],
+      correct: 1,
+      why: '<b>Have you been working</b> łączy przeszłość z teraźniejszością — pytasz o czas od początku do dziś. Zdanie A też jest poprawne, ale pyta o co innego: o ustalony, tymczasowy okres („ile jeszcze zostajesz?").'
+    }
+  ];
+
+  var DIALOGI = [
+    {
+      title: 'Umawiacie spotkanie',
+      lines: [
+        {who:'Anna', pre:'Can we meet on Tuesday?', gap:null},
+        {who:'Mark', pre:'Tuesday, or ', gap:{opts:['eventually','alternatively','actually'], correct:'alternatively',
+          why:'<i>Eventually</i> znaczy „w końcu, po jakimś czasie" — nie „ewentualnie". Polskie „ewentualnie" to <b>or alternatively</b> albo po prostu <i>or</i>.'},
+          post:' Wednesday, if that suits you.'},
+        {who:'Anna', pre:'', gap:{opts:['Currently','Actually','Eventually'], correct:'Actually',
+          why:'<b>Actually</b> to „właściwie, tak naprawdę" — sygnał uprzejmej korekty. „Aktualnie" to <i>currently</i> albo <i>at the moment</i>.'},
+          post:', Wednesday is better for me.'},
+        {who:'Mark', pre:'Perfect. Shall I bring you a coffee?', gap:null},
+        {who:'Anna', pre:'No, thanks — I\'ve ', gap:{opts:['after','already','yet'], correct:'already',
+          why:'Uwaga na pułapkę: <i>I\'m after coffee</i> w brytyjskim angielskim znaczy „<b>chcę</b> kawy", a nie „jestem po kawie". Poprawnie: <b>I\'ve already had my coffee</b>.'},
+          post:' had my coffee.'}
+      ]
+    },
+    {
+      title: 'Rozmowa o pracę',
+      lines: [
+        {who:'HR', pre:'Tell me about your previous ', gap:{opts:['chef','boss','chief'], correct:'boss',
+          why:'<i>Chef</i> to kucharz, a dokładniej szef kuchni. Przełożony w pracy to <b>boss</b> albo <i>manager</i>. Oba słowa mają wspólny francuski rodowód, ale angielski rozdzielił im znaczenia.'},
+          post:'.'},
+        {who:'Ty', pre:'She was very ', gap:{opts:['sympathetic','sympathy','nice'], correct:'nice',
+          why:'<i>Sympathetic</i> znaczy „wyrozumiały, współczujący" — zdanie byłoby poprawne, ale sugerowałoby, że coś się wydarzyło. „Sympatyczny" to <b>nice</b>, <i>friendly</i>, <i>likeable</i>.'},
+          post:' — the whole team liked her.'},
+        {who:'HR', pre:'And how long ', gap:{opts:['are','did','have'], correct:'have',
+          why:'<b>How long have you been working there?</b> — pytanie o czas od początku do dziś wymaga present perfect continuous.'},
+          post:' you been working there?'},
+        {who:'Ty', pre:'Three years. I ', gap:{opts:['left','leaved','lived'], correct:'left',
+          why:'<i>Leave</i> jest nieregularny: leave — <b>left</b> — left. I uwaga: <i>live</i> /lɪv/ to mieszkać, <i>leave</i> /liːv/ to wyjeżdżać.'},
+          post:' the company last spring.'}
+      ]
+    },
+    {
+      title: 'Poniedziałek w kuchni biurowej',
+      lines: [
+        {who:'Tom', pre:'Morning. How was the journey in?', gap:null},
+        {who:'Ewa', pre:'The ', gap:{opts:['commuting','commute','commutation'], correct:'commute',
+          why:'<b>Commute</b> to dojazd do pracy — jedno słowo zamiast całego polskiego wyrażenia. Działa też jako czasownik: <i>I commute by train</i>.'},
+          post:' took an hour and a half today.'},
+        {who:'Tom', pre:'That\'s rough. You must be ', gap:{opts:['exhausting','exhaust','exhausted'], correct:'exhausted',
+          why:'<b>Exhausted</b> — o osobie, która jest wykończona. <i>Exhausting</i> opisywałoby to, co ją wykończyło. Ta sama zasada co przy <i>bored</i> i <i>boring</i>.'},
+          post:'.'},
+        {who:'Ewa', pre:'A bit. Sorry — I\'m not very good at ', gap:{opts:['small talk','small talking','little talk'], correct:'small talk',
+          why:'<b>Small talk</b> to stałe wyrażenie — rozmowa o niczym, która w Anglii poprzedza każdą rozmowę o czymś. Nie odmienia się i nie ma polskiego odpowiednika jednym słowem.'},
+          post:' before coffee.'},
+        {who:'Tom', pre:'Neither am I. I never ', gap:{opts:['feel myself','feel','am feeling'], correct:'feel',
+          why:'<b>I never feel properly awake</b> — <i>feel</i> o samopoczuciu nie łączy się z <i>myself</i>.'},
+          post:' properly awake before nine.'}
+      ]
+    }
+  ];
+
+  var TOTAL = QUIZ.length;
+  DIALOGI.forEach(function(d){ d.lines.forEach(function(l){ if(l.gap) TOTAL++; }); });
+
+  var answered = 0, correctCount = 0;
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /* ---------- QUIZ ---------- */
+  var quizEl = document.getElementById('quiz');
+  QUIZ.forEach(function(item, i){
+    var card = document.createElement('div');
+    card.className = 'card';
+    var html = '<div class="num">Pytanie ' + (i+1) + ' z ' + QUIZ.length + '</div>' +
+               '<div class="q">' + item.q + '</div><div class="opts">';
+    item.a.forEach(function(opt, j){
+      html += '<button class="opt" data-i="' + j + '"><span class="letter">' +
+              'AB'[j] + '</span><span>' + esc(opt) + '</span></button>';
+    });
+    html += '</div><div class="why" hidden>' + item.why + '</div>';
+    card.innerHTML = html;
+
+    var btns = card.querySelectorAll('.opt');
+    var why = card.querySelector('.why');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if (btn.disabled) return;
+        var picked = +btn.dataset.i;
+        btns.forEach(function(b){
+          b.disabled = true;
+          if (+b.dataset.i === item.correct) b.classList.add('correct');
+        });
+        if (picked !== item.correct) btn.classList.add('wrong');
+        else correctCount++;
+        why.hidden = false;
+        answered++; updateScore();
+      });
+    });
+    quizEl.appendChild(card);
+  });
+
+  /* ---------- DIALOGI ---------- */
+  var dlgEl = document.getElementById('dialogi');
+  DIALOGI.forEach(function(d, di){
+    var card = document.createElement('div');
+    card.className = 'card';
+    var html = '<div class="num">Dialog ' + (di+1) + '</div><div class="q">' + d.title + '</div><div class="dlg">';
+    d.lines.forEach(function(l, li){
+      html += '<div class="line"><span class="who">' + esc(l.who) + '</span><span class="say">' + esc(l.pre);
+      if (l.gap){
+        html += '<select data-d="' + di + '" data-l="' + li + '"><option value="">— wybierz —</option>';
+        l.gap.opts.forEach(function(o){ html += '<option value="' + esc(o) + '">' + esc(o) + '</option>'; });
+        html += '</select>';
+      }
+      html += esc(l.post || '') + '</span></div>';
+      if (l.gap) html += '<div class="why" data-why="' + di + '-' + li + '" hidden>' + l.gap.why + '</div>';
+    });
+    html += '</div><button class="check">Sprawdź dialog</button>';
+    card.innerHTML = html;
+
+    card.querySelector('.check').addEventListener('click', function(){
+      var sels = card.querySelectorAll('select');
+      var missing = false;
+      sels.forEach(function(s){ if (!s.value) missing = true; });
+      if (missing){ card.querySelector('.check').textContent = 'Uzupełnij wszystkie luki'; return; }
+
+      sels.forEach(function(s){
+        if (s.disabled) return;
+        var line = DIALOGI[+s.dataset.d].lines[+s.dataset.l];
+        var ok = s.value === line.gap.correct;
+        s.classList.add(ok ? 'correct' : 'wrong');
+        if (!ok) s.value = line.gap.correct;
+        s.disabled = true;
+        card.querySelector('[data-why="' + s.dataset.d + '-' + s.dataset.l + '"]').hidden = false;
+        if (ok) correctCount++;
+        answered++;
+      });
+      this.remove();
+      updateScore();
+    });
+
+    dlgEl.appendChild(card);
+  });
+
+  /* ---------- WYNIK ---------- */
+  var scoreEl = document.getElementById('score');
+  function updateScore(){
+    if (answered < TOTAL) return;
+    var pct = Math.round(correctCount / TOTAL * 100);
+    document.getElementById('scoreBig').textContent = correctCount + ' / ' + TOTAL;
+    var msg;
+    if (pct >= 85) msg = 'Bardzo dobrze. Twój angielski jest solidny — brakuje mu tylko regularnej praktyki mówienia.';
+    else if (pct >= 55) msg = 'Nieźle. Rozumiesz reguły, ale kalki z polskiego wciąż się przedostają — a to słychać w rozmowie.';
+    else msg = 'Sporo tu do uporządkowania — i to dobra wiadomość, bo wszystkie te błędy da się usunąć raz na zawsze.';
+    document.getElementById('scoreMsg').textContent = msg;
+    scoreEl.hidden = false;
+    scoreEl.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  /* ---------- ZAKŁADKI ---------- */
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){
+        var on = t === tab;
+        t.setAttribute('aria-selected', on);
+        document.getElementById(t.dataset.panel).hidden = !on;
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
