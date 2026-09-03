@@ -128,11 +128,15 @@
   <div class="score" id="score" hidden>
     <span class="big" id="scoreBig"></span>
     <p id="scoreMsg"></p>
-    <a class="cta" href="https://agawargos-dev.github.io/ksiazki-agnieszka-wargos/">Pierwszy rozdział — bezpłatnie</a>
+    <a class="cta" id="scoreCta" href="https://www.amazon.co.uk/dp/B0HC4SCWVP">English Start A2 — Kindle</a>
+    <span class="alt" id="scoreAlt"></span>
   </div>
 
-  <p class="foot">English Start — kurs angielskiego dla dorosłych ·
-    <a href="https://agawargos-dev.github.io/ksiazki-agnieszka-wargos/">agawargos.dev</a></p>
+  <p class="foot">English Start — kurs angielskiego dla dorosłych, poziomy A1–C2<br>
+    A1 <a href="https://www.amazon.co.uk/dp/B0HC813W2R">Kindle</a> / <a href="https://www.amazon.co.uk/dp/B0HBFDTFFP">papier</a> ·
+    A2 <a href="https://www.amazon.co.uk/dp/B0HC4SCWVP">Kindle</a> / <a href="https://www.amazon.co.uk/dp/B0HBXHWLWZ">papier</a> ·
+    B1 <a href="https://www.amazon.co.uk/dp/B0HDFB1TNS">Kindle</a> / <a href="https://www.amazon.co.uk/dp/B0HD9N8SHW">papier</a> ·
+    B2 <a href="https://www.amazon.co.uk/dp/B0HDG57RZC">Kindle</a> / <a href="https://www.amazon.co.uk/dp/B0HD2DVM82">papier</a></p>
 
 </div>
 
@@ -321,6 +325,13 @@
     else if (pct >= 55) msg = 'Nieźle. Rozumiesz reguły, ale kalki z polskiego wciąż się przedostają — a to słychać w rozmowie.';
     else msg = 'Sporo tu do uporządkowania — i to dobra wiadomość, bo wszystkie te błędy da się usunąć raz na zawsze.';
     document.getElementById('scoreMsg').textContent = msg;
+    var c = document.getElementById('scoreCta');
+    if (pct >= 85){ c.textContent='English Start B2 — Kindle'; c.href='https://www.amazon.co.uk/dp/B0HDG57RZC';
+      document.getElementById('scoreAlt').innerHTML='Wolisz papier? <a href="https://www.amazon.co.uk/dp/B0HD2DVM82">B2 w wersji drukowanej</a>'; }
+    else if (pct >= 55){ c.textContent='English Start B1 — Kindle'; c.href='https://www.amazon.co.uk/dp/B0HDFB1TNS';
+      document.getElementById('scoreAlt').innerHTML='Wolisz papier? <a href="https://www.amazon.co.uk/dp/B0HD9N8SHW">B1 w wersji drukowanej</a>'; }
+    else { c.textContent='English Start A2 — Kindle'; c.href='https://www.amazon.co.uk/dp/B0HC4SCWVP';
+      document.getElementById('scoreAlt').innerHTML='Wolisz papier? <a href="https://www.amazon.co.uk/dp/B0HBXHWLWZ">A2 w wersji drukowanej</a> &middot; Od zera? <a href="https://www.amazon.co.uk/dp/B0HC813W2R">A1</a>'; }
     scoreEl.hidden = false;
     scoreEl.scrollIntoView({behavior:'smooth', block:'center'});
   }

@@ -135,9 +135,8 @@
 
   <p class="foot">
     <strong>Polish: A Complete Course for English Speakers</strong> by Agnieszka Wargoś<br>
-    <a href="https://www.amazon.com/dp/B0HG2T6H7M">Polish A1</a> ·
-    <a href="https://www.amazon.com/dp/B0HGNSG43G">Polish B1</a> ·
-    available in paperback and Kindle
+    Polish A1 — <a href="https://www.amazon.co.uk/dp/B0HG2T6H7M">Kindle</a> / <a href="https://www.amazon.co.uk/dp/B0HG2T6SGG">paperback</a> &nbsp;·&nbsp;
+    Polish B1 — <a href="https://www.amazon.co.uk/dp/B0HGNSG43G">Kindle</a> / <a href="https://www.amazon.co.uk/dp/B0HGP947P3">paperback</a>
   </p>
 
 </div>
@@ -146,8 +145,10 @@
 (function(){
   "use strict";
 
-  var LINK_A1 = 'https://www.amazon.com/dp/B0HG2T6H7M';
-  var LINK_B1 = 'https://www.amazon.com/dp/B0HGNSG43G';
+  var LINK_A1 = 'https://www.amazon.co.uk/dp/B0HG2T6H7M';
+  var PAPER_A1 = 'https://www.amazon.co.uk/dp/B0HG2T6SGG';
+  var LINK_B1 = 'https://www.amazon.co.uk/dp/B0HGNSG43G';
+  var PAPER_B1 = 'https://www.amazon.co.uk/dp/B0HGP947P3';
 
   var QUIZ = [
     {
@@ -336,16 +337,16 @@
     var msg, cta, ctaHref, alt;
     if (pct >= 80){
       msg = 'You already handle the cases that stop most learners. The next step is using them without pausing to think — that is what B1 is for.';
-      cta = 'Look inside Polish B1'; ctaHref = LINK_B1;
-      alt = 'Starting from scratch instead? <a href="' + LINK_A1 + '">Polish A1</a>';
+      cta = 'Polish B1 — Kindle'; ctaHref = LINK_B1;
+      alt = 'Prefer print? <a href="' + PAPER_B1 + '">Polish B1 paperback</a> &middot; Starting from scratch? <a href="' + LINK_A1 + '">Polish A1</a>';
     } else if (pct >= 45){
       msg = 'You recognise the patterns but they are not automatic yet — which is exactly the gap between reading Polish and speaking it.';
-      cta = 'Look inside Polish A1'; ctaHref = LINK_A1;
-      alt = 'Already comfortable with the basics? <a href="' + LINK_B1 + '">Polish B1</a>';
+      cta = 'Polish A1 — Kindle'; ctaHref = LINK_A1;
+      alt = 'Prefer print? <a href="' + PAPER_A1 + '">Polish A1 paperback</a> &middot; Already past the basics? <a href="' + LINK_B1 + '">Polish B1</a>';
     } else {
       msg = 'Plenty to sort out here — and that is good news, because these are rules, not exceptions. Learn them once and they hold across the whole language.';
-      cta = 'Start with Polish A1'; ctaHref = LINK_A1;
-      alt = 'Paperback and Kindle, both on Amazon.';
+      cta = 'Polish A1 — Kindle'; ctaHref = LINK_A1;
+      alt = 'Prefer print? <a href="' + PAPER_A1 + '">Polish A1 paperback</a>';
     }
     document.getElementById('scoreMsg').textContent = msg;
     var c = document.getElementById('scoreCta');
